@@ -1,0 +1,51 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Сброс медиаэлементов */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Наследуем шрифт для элементов формы */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* Сброс списков */
+ul, ol {
+  list-style: none;
+}
+
+/* Сброс ссылок */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Сброс заголовков и параграфов */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* Для SPA-Framework контейнера */
+#root, #__nuxt {
+  isolation: isolate;
+}
