@@ -6,6 +6,12 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/icon'
   ],
+  app: {
+    pageTransition: {
+      name: 'global-transition',
+      mode: 'out-in'
+    }
+  },
   icon: {
     customCollections: [
       {
