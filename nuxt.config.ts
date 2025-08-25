@@ -4,7 +4,16 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@nuxt/fonts',
+    '@nuxt/icon'
   ],
+  icon: {
+    customCollections: [
+      {
+        prefix: 'icons',
+        dir: './assets/icons'
+      }
+    ]
+  },
   css: [
     '~/assets/style/reset.css',
     '~/assets/style/variables.css',
