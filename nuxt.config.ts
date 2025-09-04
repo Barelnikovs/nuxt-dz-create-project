@@ -6,6 +6,11 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/icon'
   ],
+  runtimeConfig: {
+    public: {
+      APIURL: ''
+    }
+  },
   app: {
     pageTransition: {
       name: 'global-transition',

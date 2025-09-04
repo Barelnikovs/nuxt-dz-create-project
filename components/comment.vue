@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import type { Comment } from '~/interfaces/comment.interfaces';
+
+const comment = defineProps<Comment>()
+</script>
+
 <template>
     <div class="comment__wrapper">
         <div class="comment__info">
@@ -8,9 +14,8 @@
             <div class="comment__time-ago">4 дня назад</div>
         </div>
         <div class="comment__content">
-            <p class="title">Добавить функцию голосования</p>
-            <p class="text">Попробовать добавить в приложение функцию голосования, которая позволит определить, какая
-                фича более полезна, а какая нет. После добавления поста появляется...</p>
+            <p class="title">{{ comment.title }}</p>
+            <p class="text">{{ comment.content }}</p>
         </div>
         <div class="comment__bottom">
             <div class="comment__likes">
@@ -43,6 +48,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    border: 1px solid var(--color-black);
 }
 
 .comment__info {
