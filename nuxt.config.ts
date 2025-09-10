@@ -2,10 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: [
-    '@nuxt/fonts',
-    '@nuxt/icon'
-  ],
+  modules: ['@nuxt/fonts', '@nuxt/icon', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
   runtimeConfig: {
     public: {
       APIURL: ''
@@ -29,5 +26,8 @@ export default defineNuxtConfig({
     '~/assets/style/reset.css',
     '~/assets/style/variables.css',
     '~/assets/style/main.css',
-  ]
+  ],
+  piniaPluginPersistedstate: {
+    key: 'nuxtDZ_%id_store'
+  }
 })

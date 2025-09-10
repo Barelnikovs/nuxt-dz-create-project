@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Comment } from '~/interfaces/comment.interfaces';
+import type { Comment } from '~/types/comment.interfaces';
 
 const runtimeConfig = useRuntimeConfig()
 const APIURL = runtimeConfig.public.APIURL
