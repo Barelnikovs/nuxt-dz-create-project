@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { Action, PostAction } from '~/types/action.types'
+import type { PostAction, Action } from '~/types/action.types'
 
 export const useActionStore = defineStore('action', () => {
     const runtimeConfig = useRuntimeConfig()
@@ -7,13 +7,15 @@ export const useActionStore = defineStore('action', () => {
 
     const postActions = ref<PostAction[]>([])
 
-    const isActionPushed = (commentId: number): Action | null => {
-        const action = postActions.value.find(obj => obj.id === commentId)
-        return action ? action.action : null
+    const isActionsPushed = (commentId: number): PostAction[] => {
+        const actions = postActions.value.filter(obj => obj.id === commentId)
+        return actions
     }
 
     const addAction = async ( id: number, action: Action ) => {
-        if ( !postActions.value.some(obj => obj.id === id) ) {
+        const alreadyHasAction = postActions.value.some(obj => obj.id === id && obj.action === action)
+
+        if (!alreadyHasAction) {
             try {
                 await $fetch(`${APIURL}/posts/${id}/${action}`, { method: 'POST' })
                 postActions.value.push({id: id, action: action});
@@ -23,7 +25,7 @@ export const useActionStore = defineStore('action', () => {
         }
     }
 
-    return {postActions, isActionPushed, addAction}
+    return {postActions, isActionsPushed, addAction}
 },
 {
     persist: true

@@ -37,7 +37,7 @@ const totalPages = computed((): number => Math.ceil((postsData.value?.total ?? 0
         <hr>
         <div class="comments">
             <Comment v-for="comment in postsData?.posts" :key="comment.id" v-bind="comment"
-                :is-pushed="actionStore.isActionPushed(comment.id)" />
+                :is-pushed="actionStore.isActionsPushed(comment.id)" />
         </div>
         <hr>
         <nav class="pagination">

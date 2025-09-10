@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Comment } from '~/types/comment.interfaces';
-import type { Action } from '~/types/action.types'
+import type { Action, PostAction } from '~/types/action.types';
 
 interface CommentWithIsPush extends Comment {
-    isPushed: 'like' | 'dislike' | null;
+    isPushed: PostAction[];
 }
 
 const comment = defineProps<CommentWithIsPush>()
@@ -13,6 +13,8 @@ const getTimeAgo = () => {
 }
 
 const actionStore = useActionStore()
+const likePushed = computed(() => comment.isPushed.find(obj => obj.action === 'like'))
+const deslikePushed = computed(() => comment.isPushed.find(obj => obj.action === 'dislike'))
 const clickAction = async (action: Action) => {
     await actionStore.addAction(comment.id, action)
 }
@@ -35,13 +37,13 @@ const clickAction = async (action: Action) => {
             <div class="comment__likes">
                 <div class="comment__like">
                     <span>{{ comment.likes }}</span>
-                    <Icon :class="{ 'pointer': true, 'green': comment.isPushed === 'like' }"
-                        @click="clickAction('like')" name="iconamoon:like-thin" size="20px" />
+                    <Icon :class="{ 'pointer': true, 'green': likePushed }" @click="clickAction('like')"
+                        name="iconamoon:like-thin" size="20px" />
                 </div>
                 <div class="comment__like">
                     <span>{{ comment.dislikes }}</span>
-                    <Icon :class="{ 'pointer': true, 'red': comment.isPushed === 'dislike' }"
-                        @click="clickAction('dislike')" name="iconamoon:dislike-thin" size="20px" />
+                    <Icon :class="{ 'pointer': true, 'red': deslikePushed }" @click="clickAction('dislike')"
+                        name="iconamoon:dislike-thin" size="20px" />
                 </div>
             </div>
             <div class="comment-edite">
