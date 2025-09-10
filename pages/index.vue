@@ -21,7 +21,7 @@ const query = computed(() => ({
     sort: route.query.sort || undefined
 }))
 const key = `sortingKey-${route.query.page}-${route.query.page_size}-${route.query.sort}`
-const { data: postsData, refresh } = await useFetch<GetPostsData>(`${APIURL}/posts`, { query, key })
+const { data: postsData, refresh, pending } = await useFetch<GetPostsData>(`${APIURL}/posts`, { query, key })
 
 watch(actionStore.postActions, () => refresh())
 
@@ -36,7 +36,8 @@ const totalPages = computed((): number => Math.ceil((postsData.value?.total ?? 0
         </div>
         <hr>
         <div class="comments">
-            <Comment v-for="comment in postsData?.posts" :key="comment.id" v-bind="comment"
+            <div v-if="pending">Загрузка...</div>
+            <Comment v-else v-for="comment in postsData?.posts" :key="comment.id" v-bind="comment"
                 :is-pushed="actionStore.isActionsPushed(comment.id)" />
         </div>
         <hr>
@@ -44,23 +45,17 @@ const totalPages = computed((): number => Math.ceil((postsData.value?.total ?? 0
             <button class="pagination__button" @click="page = 1" v-if="page - 1 > 1">
                 {{ 1 }}
             </button>
-            <span class="pagination__partition" v-if="page - 1 > 1"></span>
             <span class="pagination__dots" v-if="page - 1 > 2"> ... </span>
-            <span class="pagination__partition" v-if="page - 1 > 2"></span>
             <button class="pagination__button" @click="page = page - 1" v-if="page > 1">
                 {{ page - 1 }}
             </button>
-            <span class="pagination__partition" v-if="page > 1"></span>
             <button class="pagination__button" :class="{ 'active': page !== totalPages }" v-if="page !== totalPages">
                 {{ page }}
             </button>
-            <span class="pagination__partition" v-if="page !== totalPages"></span>
             <button class="pagination__button" @click="page = page + 1" v-if="totalPages - page > 1">
                 {{ page + 1 }}
             </button>
-            <span class="pagination__partition" v-if="totalPages - page > 1"></span>
             <span class="pagination__dots" v-if="totalPages - page > 2"> ... </span>
-            <span class="pagination__partition" v-if="totalPages - page > 2"></span>
             <button class="pagination__button" :class="{ 'active': totalPages === page }" @click="page = totalPages">
                 {{ totalPages }}
             </button>
@@ -104,11 +99,6 @@ const totalPages = computed((): number => Math.ceil((postsData.value?.total ?? 0
     gap: 15px;
     padding-left: 30px;
     margin-bottom: 30px;
-}
-
-.pagination__partition {
-    display: block;
-    border-right: 1px solid black;
 }
 
 .pagination__dots {
