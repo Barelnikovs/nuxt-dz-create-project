@@ -10,6 +10,10 @@ export interface Comment {
     "updated_at": string
 }
 
-export interface GetCommentData {
-    posts: Comment[]
+export interface GetPostsData {
+    "posts": Comment[],
+	"total": number,
+	"page": number,
+	"page_size": number,
+	"total_pages": number
 }
