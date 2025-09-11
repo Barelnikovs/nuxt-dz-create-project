@@ -3,8 +3,10 @@ import type { Comment } from '~/types/comment.interfaces';
 import type { Action, PostAction } from '~/types/action.types';
 
 interface CommentWithIsPush extends Comment {
-    isPushed: PostAction[];
+    isPushed?: PostAction[];
 }
+
+const route = useRoute()
 
 const comment = defineProps<CommentWithIsPush>()
 
@@ -13,8 +15,8 @@ const getTimeAgo = () => {
 }
 
 const actionStore = useActionStore()
-const likePushed = computed(() => comment.isPushed.find(obj => obj.action === 'like'))
-const deslikePushed = computed(() => comment.isPushed.find(obj => obj.action === 'dislike'))
+const likePushed = computed(() => comment.isPushed?.find(obj => obj.action === 'like'))
+const deslikePushed = computed(() => comment.isPushed?.find(obj => obj.action === 'dislike'))
 const clickAction = async (action: Action) => {
     await actionStore.addAction(comment.id, action)
 }
@@ -29,10 +31,11 @@ const clickAction = async (action: Action) => {
             </div>
             <div class="comment__time-ago">{{ getTimeAgo() }} дней назад</div>
         </div>
-        <div class="comment__content">
+        <NuxtLink class="comment__content" tag="div"
+            :to="route.path === '/' ? { path: `/post/${comment.id}`, query: {} } : undefined">
             <p class="title">{{ comment.title }}</p>
             <p class="text">{{ comment.content }}</p>
-        </div>
+        </NuxtLink>
         <div class="comment__bottom">
             <div class="comment__likes">
                 <div class="comment__like">
