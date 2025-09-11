@@ -1,7 +1,25 @@
 <script setup lang="ts">
-import type { Comment } from '~/interfaces/comment.interfaces';
+import type { Comment } from '~/types/comment.interfaces';
+import type { Action, PostAction } from '~/types/action.types';
 
-const comment = defineProps<Comment>()
+interface CommentWithIsPush extends Comment {
+    isPushed?: PostAction[];
+}
+
+const route = useRoute()
+
+const comment = defineProps<CommentWithIsPush>()
+
+const getTimeAgo = () => {
+    return Math.floor((new Date().getTime() - new Date(comment.published_at).getTime()) / (1000 * 60 * 60 * 24))
+}
+
+const actionStore = useActionStore()
+const likePushed = computed(() => comment.isPushed?.find(obj => obj.action === 'like'))
+const deslikePushed = computed(() => comment.isPushed?.find(obj => obj.action === 'dislike'))
+const clickAction = async (action: Action) => {
+    await actionStore.addAction(comment.id, action)
+}
 </script>
 
 <template>
@@ -11,21 +29,24 @@ const comment = defineProps<Comment>()
                 <img src="~/assets/icons/avatar.avif" alt="avatar">
                 <p>PurpleSchool</p>
             </div>
-            <div class="comment__time-ago">4 дня назад</div>
+            <div class="comment__time-ago">{{ getTimeAgo() }} дней назад</div>
         </div>
-        <div class="comment__content">
+        <NuxtLink class="comment__content" tag="div"
+            :to="route.path === '/' ? { path: `/post/${comment.id}`, query: {} } : undefined">
             <p class="title">{{ comment.title }}</p>
             <p class="text">{{ comment.content }}</p>
-        </div>
+        </NuxtLink>
         <div class="comment__bottom">
             <div class="comment__likes">
                 <div class="comment__like">
-                    <span>10</span>
-                    <Icon class="pointer" name="iconamoon:like-thin" size="20px" />
+                    <span>{{ comment.likes }}</span>
+                    <Icon :class="{ 'pointer': true, 'green': likePushed }" @click="clickAction('like')"
+                        name="iconamoon:like-thin" size="20px" />
                 </div>
                 <div class="comment__like">
-                    <span>1</span>
-                    <Icon class="pointer" name="iconamoon:dislike-thin" size="20px" />
+                    <span>{{ comment.dislikes }}</span>
+                    <Icon :class="{ 'pointer': true, 'red': deslikePushed }" @click="clickAction('dislike')"
+                        name="iconamoon:dislike-thin" size="20px" />
                 </div>
             </div>
             <div class="comment-edite">
@@ -49,6 +70,7 @@ const comment = defineProps<Comment>()
     flex-direction: column;
     gap: 10px;
     border: 1px solid var(--color-black);
+    border-radius: 4px;
 }
 
 .comment__info {
@@ -107,6 +129,15 @@ const comment = defineProps<Comment>()
 
 .comment__like span.pointer {
     cursor: pointer;
+    color: black;
+}
+
+.comment__like span.green {
+    color: green;
+}
+
+.comment__like span.red {
+    color: red;
 }
 
 .comment-edite {
