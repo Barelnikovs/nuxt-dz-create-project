@@ -1,10 +1,15 @@
 <script setup lang="ts">
-defineProps<{ placeholder: string }>()
+defineProps<{
+    placeholder: string,
+    type?: string
+}>()
+
+const data = defineModel<string | undefined>()
 </script>
 
 <template>
     <div class="input__wrapper">
-        <input :placeholder="placeholder">
+        <input v-model="data" :placeholder="placeholder" :type="type ?? 'text'">
     </div>
 </template>
 
