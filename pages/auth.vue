@@ -1,6 +1,33 @@
 <script setup lang="ts">
 import BaseButton from '~/components/ui/BaseButton.vue';
 import InputField from '~/components/ui/InputField.vue';
+import { useAPIURL } from '~/composables/useAPIURL';
+import type { LoginResponse } from '~/types/auth.types';
+
+const authStore = useAuthStore()
+const APIURL = useAPIURL()
+
+const email = ref<string | undefined>()
+const password = ref<string | undefined>()
+
+const login = async () => {
+    try {
+        const data = await $fetch<LoginResponse>(APIURL + '/auth/login', {
+            method: 'POST',
+            body: {
+                email: email.value,
+                password: password.value
+            }
+        })
+        if (data) {
+            authStore.setToken(data.token)
+            email.value = undefined
+            password.value = undefined
+        }
+    } catch (error) {
+        console.warn(error)
+    }
+}
 
 </script>
 
@@ -8,9 +35,9 @@ import InputField from '~/components/ui/InputField.vue';
     <div class="auth__wrapper">
         <form>
             <h2>Вход на платформу</h2>
-            <InputField placeholder="Email" />
-            <InputField placeholder="Пароль" />
-            <BaseButton>Войти в аккаунт</BaseButton>
+            <InputField v-model="email" placeholder="Email" />
+            <InputField v-model="password" placeholder="Пароль" type="password" />
+            <BaseButton @click.stop.prevent="login">Войти в аккаунт</BaseButton>
         </form>
     </div>
 </template>
