@@ -1,13 +1,22 @@
 import { defineStore } from "pinia";
+import type { User } from "~/types/auth.types";
 
 export const useAuthStore = defineStore('auth', () => {
     const token = ref<string | undefined>()
 
-    const setToken = (value: string) => token.value = value
+    const userData = ref<User | undefined>()
 
-    const clearToken = () => token.value = undefined
+    const setAuthData = (tokenValue: string, user: User) => {
+        token.value = tokenValue;
+        userData.value = user
+    }
 
-    return { token, setToken, clearToken }
+    const clearAuthData = () => {
+        token.value = undefined
+        userData.value = undefined
+    }
+
+    return { token, setAuthData, clearAuthData }
 },
 {
     persist: true

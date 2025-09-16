@@ -20,9 +20,10 @@ const login = async () => {
             }
         })
         if (data) {
-            authStore.setToken(data.token)
+            authStore.setAuthData(data.token, data.user)
             email.value = undefined
             password.value = undefined
+            navigateTo('/')
         }
     } catch (error) {
         console.warn(error)
