@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BaseButton from '~/components/ui/BaseButton.vue';
 import type { NuxtError } from '#app';
 
 const { error } = defineProps<{
@@ -12,7 +13,7 @@ const { error } = defineProps<{
         <p class="error-message" v-if="error.statusCode == 404">Страница не найдена, попробуйте перейти на домашнюю
             страницу</p>
         <p class="error-message" v-else>{{ error.statusMessage }}</p>
-        <UiButton color="ghost" @click="navigateTo('/')">Главная страница</UiButton>
+        <BaseButton color="ghost" @click="navigateTo('/')">Главная страница</BaseButton>
     </div>
 </template>
 

@@ -30,6 +30,10 @@ const totalPages = computed((): number => Math.ceil((postsData.value?.total ?? 0
 
 <template>
     <div class="wrapper">
+        <NuxtLink to="#" class="add-post">
+            <Icon name="iconamoon:sign-plus-circle-light" size="24px" />
+            Добавить новое обновление для голосования
+        </NuxtLink>
         <div class="sorting">
             <button :class="{ 'active': sorting === 'date' }" @click="sorting = 'date'">По дате</button>
             <button :class="{ 'active': sorting === 'rating' }" @click="sorting = 'rating'">По рейтингу</button>
@@ -68,6 +72,12 @@ const totalPages = computed((): number => Math.ceil((postsData.value?.total ?? 0
     display: flex;
     flex-direction: column;
     gap: 25px;
+}
+
+.add-post {
+    display: flex;
+    gap: 10px;
+    margin-left: 30px;
 }
 
 .sorting {
