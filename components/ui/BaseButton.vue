@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Prop {
-    color: 'primary' | 'ghost'
+    color?: 'primary' | 'ghost'
 }
 const props = withDefaults(defineProps<Prop>(), { color: 'primary' })
 </script>
@@ -14,7 +14,7 @@ const props = withDefaults(defineProps<Prop>(), { color: 'primary' })
 <style scoped>
 .base-button {
     border: 1px solid black;
-    border-radius: 4px;
+    border-radius: 23px;
     padding: 12px;
     font-family: var(--font-main);
     font-weight: 700;
