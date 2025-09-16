@@ -1,7 +1,7 @@
 export default defineNuxtRouteMiddleware((to) => {
-    const auth = useCookie<{token: string}>('nuxtDZ_auth_store')
+    const auth = useAuthStore()
 
-    if (!auth.value?.token && (to.path === '/post/create' || to.path === '/post/editing')) {
+    if (!auth.token && (to.path === '/post/create' || to.path === '/post/editing')) {
         return navigateTo('/auth')
     }
 })
