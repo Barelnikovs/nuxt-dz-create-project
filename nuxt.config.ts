@@ -5,10 +5,14 @@ export default defineNuxtConfig({
   modules: ['@nuxt/fonts', '@nuxt/icon', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
   runtimeConfig: {
     public: {
-      APIURL: ''
+      APIURL: 'http://localhost:8080'
     }
   },
   app: {
+    head: {
+      title: 'Платформа голосования',
+      titleTemplate: '%s | VoteApp'
+    },
     pageTransition: {
       name: 'global-transition',
       mode: 'out-in'
