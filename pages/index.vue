@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import type { GetPostsData } from '~/types/comment.interfaces';
 
+useSeoMeta({
+    title: 'Главная',
+    description: 'Страница со всеми постами'
+})
 
-const runtimeConfig = useRuntimeConfig()
-const APIURL = runtimeConfig.public.APIURL
+const APIURL = useAPIURL()
 const actionStore = useActionStore()
 const route = useRoute()
 const router = useRouter()

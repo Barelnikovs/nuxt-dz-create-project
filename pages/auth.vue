@@ -4,6 +4,11 @@ import InputField from '~/components/ui/InputField.vue';
 import { useAPIURL } from '~/composables/useAPIURL';
 import type { LoginResponse } from '~/types/auth.types';
 
+useSeoMeta({
+    title: 'Вход',
+    description: 'Страница входа'
+})
+
 const authStore = useAuthStore()
 const APIURL = useAPIURL()
 

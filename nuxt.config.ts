@@ -9,6 +9,10 @@ export default defineNuxtConfig({
     }
   },
   app: {
+    head: {
+      title: 'Платформа голосования',
+      titleTemplate: '%s | VoteApp'
+    },
     pageTransition: {
       name: 'global-transition',
       mode: 'out-in'
